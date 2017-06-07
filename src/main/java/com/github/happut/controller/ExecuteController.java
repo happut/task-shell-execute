@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -44,7 +43,6 @@ public class ExecuteController {
     }
 
     @RequestMapping("run")
-    @ResponseBody
     public String list(@RequestParam("id")String id) {
         TaskShfilePo shfilePo = service.findTaskShfileById(id);
 
@@ -61,7 +59,7 @@ public class ExecuteController {
             e1.printStackTrace();
         }
 
-        return "execute/list";
+        return "execute/websocket";
     }
 
     ;
