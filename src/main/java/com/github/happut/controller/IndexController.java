@@ -14,4 +14,10 @@ public class IndexController {
         return "index";
     }
 
+    @RequestMapping("/")
+    public String defaultIndex(){
+        return "redirect:/index";
+    }
+
+
 }
