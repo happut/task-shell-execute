@@ -13,6 +13,5 @@ public class JobExecutorFactory {
         IJobExecutor commandJobExecutor = JobExecutorFactory.buildCommandJobExecutor("ping 127.0.0.1 -t");
         commandJobExecutor.execute();
         System.out.println(commandJobExecutor.getResult());
-        ;
     }
 }

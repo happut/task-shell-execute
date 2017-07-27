@@ -17,26 +17,6 @@ public class CommandJobExecutor implements IJobExecutor {
 
     private String command;
 
-    public String getOutput() {
-        return output;
-    }
-
-    public void setOutput(String output) {
-        this.output = output;
-    }
-
-    public String getErrout() {
-        return errout;
-    }
-
-    public void setErrout(String errout) {
-        this.errout = errout;
-    }
-
-    public String getCommand() {
-        return command;
-    }
-
     public void setCommand(String command) {
         this.command = command;
     }
