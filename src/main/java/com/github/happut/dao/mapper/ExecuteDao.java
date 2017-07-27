@@ -1,5 +1,6 @@
 package com.github.happut.dao.mapper;
 
+import com.github.happut.model.Task;
 import com.github.happut.model.TaskShfilePo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -19,4 +20,9 @@ public interface ExecuteDao {
 
     @Select("select id as id,sh_file as shFile,bz as bz from t_task_shfile where id=#{id}")
     public TaskShfilePo findTaskShfileById(@Param(value = "id") String id);
+
+    @Select("select * from t_task where id=#{id}")
+    public Task findTaskById(@Param(value = "id") String id);
+
+
 }

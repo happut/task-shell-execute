@@ -1,7 +1,11 @@
 package com.github.happut.controller;
 
+import com.github.happut.executor.IJobExecutor;
+import com.github.happut.executor.JobExecutorFactory;
+import com.github.happut.model.Task;
 import com.github.happut.model.TaskShfilePo;
 import com.github.happut.service.ExecutorService;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,23 +43,14 @@ public class ExecuteController {
 
     @RequestMapping("run")
     public String list(@RequestParam("id")String id) {
-        TaskShfilePo shfilePo = service.findTaskShfileById(id);
-
-
-//        WindowsShExecutor e = new WindowsShExecutor();
-//        try {
-//            //TaskExecute execute = e.execute(shfilePo.getShFile());
-//            //BufferedReader br = new BufferedReader(new InputStreamReader(execute.getErrorStream()));
-//            String line;
-//            //while ((line = br.readLine()) != null) {
-//             //   System.out.println(line);
-//            //}
-//        } catch (IOException e1) {
-//            e1.printStackTrace();
-//        }
-
-        return "execute/websocket";
+        Task task = service.findTaskById(id);
+        IJobExecutor iJobExecutor = JobExecutorFactory.buildCommandJobExecutor(task.getCommand());
+        boolean status = iJobExecutor.execute();
+        String result = iJobExecutor.getResult();
+        JSONObject json = new JSONObject();
+        json.put("status",status);
+        json.put("result",result);
+        return json.toString();
     }
 
-    ;
 }

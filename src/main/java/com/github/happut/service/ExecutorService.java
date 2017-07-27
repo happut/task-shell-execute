@@ -1,6 +1,7 @@
 package com.github.happut.service;
 
 import com.github.happut.dao.mapper.ExecuteDao;
+import com.github.happut.model.Task;
 import com.github.happut.model.TaskShfilePo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,5 +23,9 @@ public class ExecutorService {
 
     public TaskShfilePo findTaskShfileById(String id){
         return dao.findTaskShfileById(id);
+    }
+
+    public Task findTaskById(String id){
+        return dao.findTaskById(id);
     }
 }

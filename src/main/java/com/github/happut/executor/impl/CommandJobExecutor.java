@@ -5,6 +5,7 @@ import org.apache.commons.exec.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 /**
  * Created by bjwangfei3 on 2017/6/7.
@@ -49,9 +50,13 @@ public class CommandJobExecutor implements IJobExecutor {
 
         }
 
-        output = outputStream.toString();
-        errout = erroutStream.toString();
 
+        try {
+            output = outputStream.toString(System.getProperty("file.encoding"));
+            errout = erroutStream.toString(System.getProperty("file.encoding"));
+        } catch (UnsupportedEncodingException e) {
+
+        }
         return flag;
     }
 
