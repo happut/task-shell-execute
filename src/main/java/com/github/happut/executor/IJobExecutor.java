@@ -5,4 +5,5 @@ package com.github.happut.executor;
  */
 public interface IJobExecutor {
     boolean execute();
+    String getResult();
 }

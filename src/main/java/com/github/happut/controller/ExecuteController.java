@@ -1,6 +1,5 @@
 package com.github.happut.controller;
 
-import com.github.happut.executor.impl.WindowsShExecutor;
 import com.github.happut.model.TaskShfilePo;
 import com.github.happut.service.ExecutorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,7 @@ public class ExecuteController {
         List<TaskShfilePo> shfilePos = service.findAll();
         request.setAttribute("shfilePos",shfilePos);
 
-        WindowsShExecutor e = new WindowsShExecutor();
+//        WindowsShExecutor e = new WindowsShExecutor();
 //        try {
 //            //e.execute(shfilePos.get(0).getShFile(),response.getWriter());
 //        } catch (IOException e1) {
@@ -43,7 +42,7 @@ public class ExecuteController {
         TaskShfilePo shfilePo = service.findTaskShfileById(id);
 
 
-        WindowsShExecutor e = new WindowsShExecutor();
+//        WindowsShExecutor e = new WindowsShExecutor();
 //        try {
 //            //TaskExecute execute = e.execute(shfilePo.getShFile());
 //            //BufferedReader br = new BufferedReader(new InputStreamReader(execute.getErrorStream()));

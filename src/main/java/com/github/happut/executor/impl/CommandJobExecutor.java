@@ -11,69 +11,73 @@ import java.io.IOException;
  */
 public class CommandJobExecutor implements IJobExecutor {
 
-    public String output;
+    private String output;
 
-    public String errout;
+    private String errout;
 
-    public String command;
+    private String command;
+
+    public String getOutput() {
+        return output;
+    }
+
+    public void setOutput(String output) {
+        this.output = output;
+    }
+
+    public String getErrout() {
+        return errout;
+    }
+
+    public void setErrout(String errout) {
+        this.errout = errout;
+    }
+
+    public String getCommand() {
+        return command;
+    }
+
+    public void setCommand(String command) {
+        this.command = command;
+    }
 
     @Override
-    public boolean execute() {
-        CommandLine commandline = CommandLine.parse("");
-        DefaultExecutor executor = new DefaultExecutor();
 
+    public boolean execute() {
+        boolean flag = false;
+
+        CommandLine commandline = CommandLine.parse(command);
+        DefaultExecutor executor = new DefaultExecutor();
 
         executor.setExitValues(null);
 
-//        PumpStreamHandler streamHandler = new PumpStreamHandler(System.out, System.err);
-//        executor.setStreamHandler(streamHandler);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        ByteArrayOutputStream erroutStream = new ByteArrayOutputStream();
 
-//        ExecuteWatchdog watchdog = new ExecuteWatchdog(10000);
+        PumpStreamHandler streamHandler = new PumpStreamHandler(outputStream, erroutStream);
+        executor.setStreamHandler(streamHandler);
 
-        DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
+        ExecuteWatchdog watchdog = new ExecuteWatchdog(10000);
 
-//        executor.setWatchdog(watchdog);
+
+        executor.setWatchdog(watchdog);
         try {
-            executor.execute(commandline, resultHandler);
+            executor.execute(commandline);
+            flag = true;
+
         } catch (IOException e) {
-            e.printStackTrace();
+
         }
-        System.out.println("end");
 
+        output = outputStream.toString();
+        errout = erroutStream.toString();
 
-//        System.out.println(outputStream.toString("gbk")+"+"+errorStream.toString("gbk"));
-        return false;
-
+        return flag;
     }
 
-    public static void main(String[] arg) throws IOException {
-//        WindowsShExecutor windowsShExecutor = new WindowsShExecutor();
-//        windowsShExecutor.execute("ping 127.0.0.1 -t");
-//        windowsShExecutor.execute("java -version");
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        ByteArrayOutputStream err = new ByteArrayOutputStream();
-
-
-        new Thread(() -> {
-            CommandLine commandline = CommandLine.parse("ping 127.0.0.1 -t");
-            DefaultExecutor executor = new DefaultExecutor();
-
-
-            executor.setExitValues(null);
-
-            PumpStreamHandler streamHandler = new PumpStreamHandler(output, err);
-            executor.setStreamHandler(streamHandler);
-
-            ExecuteWatchdog watchdog = new ExecuteWatchdog(10000);
-
-            DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
-
-            executor.setWatchdog(watchdog);
-            try {
-                executor.execute(commandline, resultHandler);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }).start();
+    @Override
+    public String getResult() {
+        return "output:\n" + output + "\n" + "errout:" + errout + "\n";
     }
+
 }
