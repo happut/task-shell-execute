@@ -57,6 +57,8 @@ public class ExecuteController {
         taskResult.setStatus(status ? 1 : 2);
         taskResult.setResult(result);
 
+        service.insertTaskResult(taskResult);
+
         JSONObject json = new JSONObject();
         json.put("status", status);
         json.put("result", result);
