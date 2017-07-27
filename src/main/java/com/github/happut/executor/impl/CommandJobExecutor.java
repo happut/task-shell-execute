@@ -1,11 +1,13 @@
 package com.github.happut.executor.impl;
 
 import com.github.happut.executor.IJobExecutor;
-import org.apache.commons.exec.*;
+import org.apache.commons.exec.CommandLine;
+import org.apache.commons.exec.DefaultExecutor;
+import org.apache.commons.exec.ExecuteWatchdog;
+import org.apache.commons.exec.PumpStreamHandler;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 /**
  * Created by bjwangfei3 on 2017/6/7.
@@ -51,12 +53,8 @@ public class CommandJobExecutor implements IJobExecutor {
         }
 
 
-        try {
-            output = outputStream.toString(System.getProperty("file.encoding"));
-            errout = erroutStream.toString(System.getProperty("file.encoding"));
-        } catch (UnsupportedEncodingException e) {
-
-        }
+        output = outputStream.toString();
+        errout = erroutStream.toString();
         return flag;
     }
 
