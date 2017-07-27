@@ -3,6 +3,7 @@ package com.github.happut.controller;
 import com.github.happut.executor.IJobExecutor;
 import com.github.happut.executor.JobExecutorFactory;
 import com.github.happut.model.Task;
+import com.github.happut.model.TaskResult;
 import com.github.happut.model.TaskShfilePo;
 import com.github.happut.service.ExecutorService;
 import net.sf.json.JSONObject;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,7 +30,7 @@ public class ExecuteController {
     @RequestMapping("list")
     public String list(HttpServletRequest request, HttpServletResponse response) {
         List<TaskShfilePo> shfilePos = service.findAll();
-        request.setAttribute("shfilePos",shfilePos);
+        request.setAttribute("shfilePos", shfilePos);
 
 //        WindowsShExecutor e = new WindowsShExecutor();
 //        try {
@@ -42,14 +44,22 @@ public class ExecuteController {
     }
 
     @RequestMapping("run")
-    public String list(@RequestParam("id")String id) {
+    public String list(@RequestParam("id") String id) {
         Task task = service.findTaskById(id);
         IJobExecutor iJobExecutor = JobExecutorFactory.buildCommandJobExecutor(task.getCommand());
         boolean status = iJobExecutor.execute();
         String result = iJobExecutor.getResult();
+
+        TaskResult taskResult = new TaskResult();
+        taskResult.setId(java.util.UUID.randomUUID().toString());
+        taskResult.setTaskId(id);
+        taskResult.setExecuteTime(new Date());
+        taskResult.setStatus(status ? 1 : 2);
+        taskResult.setResult(result);
+
         JSONObject json = new JSONObject();
-        json.put("status",status);
-        json.put("result",result);
+        json.put("status", status);
+        json.put("result", result);
         return json.toString();
     }
 

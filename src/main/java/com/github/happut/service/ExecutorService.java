@@ -2,6 +2,7 @@ package com.github.happut.service;
 
 import com.github.happut.dao.mapper.ExecuteDao;
 import com.github.happut.model.Task;
+import com.github.happut.model.TaskResult;
 import com.github.happut.model.TaskShfilePo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,15 +18,19 @@ public class ExecutorService {
     @Autowired
     private ExecuteDao dao;
 
-    public List<TaskShfilePo> findAll(){
+    public List<TaskShfilePo> findAll() {
         return dao.findAll();
     }
 
-    public TaskShfilePo findTaskShfileById(String id){
+    public TaskShfilePo findTaskShfileById(String id) {
         return dao.findTaskShfileById(id);
     }
 
-    public Task findTaskById(String id){
+    public Task findTaskById(String id) {
         return dao.findTaskById(id);
+    }
+
+    public void insertTaskResult(TaskResult taskResult) {
+        dao.insertTaskResult(taskResult);
     }
 }

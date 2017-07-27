@@ -1,7 +1,9 @@
 package com.github.happut.dao.mapper;
 
 import com.github.happut.model.Task;
+import com.github.happut.model.TaskResult;
 import com.github.happut.model.TaskShfilePo;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -24,5 +26,7 @@ public interface ExecuteDao {
     @Select("select * from t_task where id=#{id}")
     public Task findTaskById(@Param(value = "id") String id);
 
+    @Insert("insert into t_task_result(id,taskId,executeTime,status,result) values(#{id},#{taskId},#{executeTime},#{status},#{result})}")
+    public void insertTaskResult(TaskResult taskResult);
 
 }
